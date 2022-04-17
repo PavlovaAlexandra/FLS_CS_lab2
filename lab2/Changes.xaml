@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:lab2"
         mc:Ignorable="d"
         Title="Changes" Height="736" Width="1574">
-    <Grid>
+    <Grid MinWidth="1574" MinHeight="720">
         <DataGrid x:Name="threatsElementOld" HorizontalAlignment="Left" Height="386" Margin="27,213,0,0" VerticalAlignment="Top" Width="709" d:ItemsSource="{d:SampleData ItemCount=5}"/>
         <DataGrid x:Name="threatsElementNew" HorizontalAlignment="Left" Height="386" Margin="833,213,0,0" VerticalAlignment="Top" Width="709" d:ItemsSource="{d:SampleData ItemCount=5}"/>
         <Label Content="Было" HorizontalAlignment="Left" Height="55" Margin="27,131,0,0" VerticalAlignment="Top" Width="276" FontWeight="Bold" FontSize="36"/>

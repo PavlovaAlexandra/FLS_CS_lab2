@@ -1,0 +1,31 @@
+﻿<Window x:Class="lab2.threatInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab2"
+        mc:Ignorable="d"
+        Title="threatInfo" Width="800" MinWidth="800" MinHeight="365">
+    <Grid>
+        <Label x:Name="id" Content="Идентификатор УБИ" HorizontalAlignment="Left" Height="33" Margin="25,27,0,0" VerticalAlignment="Top" Width="134" FontWeight="Bold"/>
+        <Label x:Name="idValue" Content="idValue" HorizontalAlignment="Left" Margin="25,47,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.447,-0.394"/>
+        <Label x:Name="name" Content="Наименование УБИ" HorizontalAlignment="Left" Height="33" Margin="214,27,0,0" VerticalAlignment="Top" Width="134" FontWeight="Bold"/>
+        <Label x:Name="source" Content="Источник угрозы" HorizontalAlignment="Left" Height="34" Margin="25,69,0,0" VerticalAlignment="Top" Width="134" FontWeight="Bold"/>
+        <Label x:Name="impact" Content="Объект воздействия" HorizontalAlignment="Left" Height="24" Margin="25,202,0,0" VerticalAlignment="Top" Width="134" FontWeight="Bold"/>
+        <Label x:Name="breachOfConfidentiality" Content="Нарушение конфиденциальности" HorizontalAlignment="Left" Height="31" Margin="386,142,0,0" VerticalAlignment="Top" Width="230" FontWeight="Bold"/>
+        <Label x:Name="breachOfConfidentialityValue" Content="breachOfConfidentialityValue" HorizontalAlignment="Left" Margin="600,142,0,142"/>
+        <Label x:Name="breachOfIntegrity" Content="Нарушение целостности" HorizontalAlignment="Left" Height="32" Margin="386,173,0,0" VerticalAlignment="Top" Width="200" FontWeight="Bold"/>
+        <Label x:Name="breachOfIntegrityValue" Content="breachOfIntegrityValue" HorizontalAlignment="Left" Margin="600,173,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="breachOfAvailability" Content="Нарушение доступности" HorizontalAlignment="Left" Height="31" Margin="386,202,0,0" VerticalAlignment="Top" Width="200" FontWeight="Bold"/>
+        <Label x:Name="breachOfAvailabilityValue" Content="breachOfAvailabilityValue" HorizontalAlignment="Left" Margin="600,202,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="dateThreat" Content="Дата включения угрозы в БнД УБИ" HorizontalAlignment="Left" Height="31" Margin="25,142,0,0" VerticalAlignment="Top" Width="268" FontWeight="Bold"/>
+        <Label x:Name="dateThreatValue" Content="dateThreatValue" HorizontalAlignment="Left" Margin="253,142,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="124"/>
+        <Label x:Name="dateThreatLastChange" Content="Дата последнего изменения данных" HorizontalAlignment="Left" Height="24" Margin="25,173,0,0" VerticalAlignment="Top" Width="268" FontWeight="Bold"/>
+        <Label x:Name="dateThreatLastChangeValue" Content="dateThreatLastChangeValue" HorizontalAlignment="Left" Margin="253,173,0,0" VerticalAlignment="Top" Width="124"/>
+        <TextBlock x:Name="descriptionBlockValue" HorizontalAlignment="Left" Margin="30,294,0,10" TextWrapping="Wrap" Text="descriptionBlockValue" VerticalAlignment="Top" Width="747"/>
+        <TextBlock x:Name="description" HorizontalAlignment="Left" Margin="30,273,0,0" TextWrapping="Wrap" Text="Описание" VerticalAlignment="Top" Width="74" FontWeight="Bold"/>
+        <TextBlock x:Name="sourceBlockValue" HorizontalAlignment="Left" Margin="30,95,0,0" TextWrapping="Wrap" Text="sourceBlockValue" VerticalAlignment="Top" Width="346"/>
+        <TextBlock x:Name="nameBlockValue" HorizontalAlignment="Left" Margin="220,52,0,0" TextWrapping="Wrap" Text="nameBlockValue" VerticalAlignment="Top" Width="569"/>
+        <TextBlock x:Name="impactBlockValue" HorizontalAlignment="Left" Margin="30,231,0,0" TextWrapping="Wrap" Text="impactBlockValue" VerticalAlignment="Top" Width="747"/>
+    </Grid>
+</Window>

@@ -26,6 +26,22 @@ namespace lab2
         public MainWindow()
         {
             InitializeComponent();
+            if (File.Exists("thrlistOld.xlsx"))
+            {
+                threats = Parsing("thrlistOld.xlsx");
+
+                foreach (var item in threats)
+                {
+                    threatViews.Add(new ThreatView(item.Id, item.Name));
+                }
+
+                Pagination(1);
+                pageNumber.Text = "1";
+            }
+            else
+            {
+                MessageBox.Show($"Локальная база отсутствует.\rСкачайте данные, нажав на кнопку \"UPDATE\".");
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -34,12 +50,27 @@ namespace lab2
             {
                 WebClient client = new WebClient();
                 client.DownloadFile("https://bdu.fstec.ru/files/documents/thrlist.xlsx", "thrlist.xlsx");
-                updateCheck();
-                File.Delete("thrlistOld.xlsx");
-                threats.Clear();
-                threatViews.Clear();
-                File.Copy("thrlist.xlsx", "thrlistOld.xlsx");
-                Parsing("thrlist.xlsx");
+
+                if (File.Exists("thrlistOld.xlsx")) 
+                { 
+                    updateCheck();
+
+                    File.Delete("thrlistOld.xlsx");
+
+                    threatViews.Clear();
+                }
+                else
+                {
+                    threats = Parsing("thrlist.xlsx");
+                }
+
+                foreach (var item in threats)
+                {
+                    threatViews.Add(new ThreatView(item.Id, item.Name));
+                }
+
+                Pagination(1);
+                pageNumber.Text = "1";
             }
             catch (Exception)
             {
@@ -47,8 +78,10 @@ namespace lab2
                 throw;
             }
         }
-        public void Parsing(string fileName)
+        public List<Threat> Parsing(string fileName)
         {
+            List<Threat> threatsParsing = new List<Threat>();
+
             using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var streamReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
@@ -59,7 +92,7 @@ namespace lab2
                     streamReader.Read();
                     while (streamReader.Read())
                     {
-                        threats.Add(new Threat(streamReader.GetDouble(0),
+                        threatsParsing.Add(new Threat(streamReader.GetDouble(0),
                             streamReader.GetString(1),
                             streamReader.GetString(2),
                             streamReader.GetString(3),
@@ -70,16 +103,9 @@ namespace lab2
                             streamReader.GetDateTime(8),
                             streamReader.GetDateTime(9)));
                     };
-                    
-                    foreach (var item in threats)
-                    {
-                        threatViews.Add(new ThreatView(item.Id, item.Name));
-                    }
-
-                    Pagination(1);
-                    pageNumber.Text = "1";
                 };
             };
+            return threatsParsing;
         }
         public void Pagination(int inputValue)
         {
@@ -106,8 +132,11 @@ namespace lab2
         }
         public void updateCheck()
         {
-            List<Threat> threatsOld = threats;
-            Parsing("thrlist.xlsx");
+            List<Threat> threatsOld = Parsing("thrlistOld.xlsx");
+
+            threats.Clear();
+            threats = Parsing("thrlist.xlsx");
+
             List<Threat> threatsChangedOld = new List<Threat>();
             List<Threat> threatsChangedNew = new List<Threat>();
 
@@ -136,7 +165,67 @@ namespace lab2
         {
             if (e.Key == Key.Enter)
             {
-                Pagination(Convert.ToInt32(pageNumber.Text));
+                if (int.TryParse(pageNumber.Text, out int pageNum))
+                {
+                    Pagination(pageNum);
+                }
+                else
+                {
+                    MessageBox.Show("Некорректное занчение.\r Введите число.");
+                    Pagination(1);
+                }
+            }
+        }
+
+        private void threatsElement_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int i = threatsElement.SelectedIndex;
+            threatInfo threatInfo = new threatInfo();
+            threatInfo.idValue.Content = threats[threatsElement.SelectedIndex].Id;
+            threatInfo.nameBlockValue.Text = threats[threatsElement.SelectedIndex].Name;
+            threatInfo.descriptionBlockValue.Text = threats[threatsElement.SelectedIndex].Description;
+            threatInfo.sourceBlockValue.Text = threats[threatsElement.SelectedIndex].SourceOfThreat;
+            threatInfo.impactBlockValue.Text = threats[threatsElement.SelectedIndex].Impact;
+            threatInfo.breachOfConfidentialityValue.Content = threats[threatsElement.SelectedIndex].BreachOfConfidentiality ? "да" : "нет";
+            threatInfo.breachOfIntegrityValue.Content = threats[threatsElement.SelectedIndex].BreachOfIntegrity ? "да" : "нет";
+            threatInfo.breachOfAvailabilityValue.Content = threats[threatsElement.SelectedIndex].BreachOfAvailability ? "да" : "нет";
+            threatInfo.dateThreatValue.Content = threats[threatsElement.SelectedIndex].DateThreat;
+            threatInfo.dateThreatLastChangeValue.Content = threats[threatsElement.SelectedIndex].DateThreatLastChange;
+            threatInfo.Show();
+        }
+
+        private void Button_Click_Save(object sender, RoutedEventArgs e)
+        {
+            File.Delete("thrlistOld.xlsx");
+            File.Copy("thrlist.xlsx", "thrlistOld.xlsx");
+            MessageBox.Show("База успешно сохранена.");
+        }
+
+        private void previousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(pageNumber.Text, out int pageNum))
+            {
+                pageNumber.Text = Convert.ToString(pageNum - 1);
+                Pagination(pageNum - 1);
+            }
+            else
+            {
+                Pagination(1);
+                pageNumber.Text = "1";
+            }
+        }
+
+        private void nextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(pageNumber.Text, out int pageNum))
+            {
+                pageNumber.Text = Convert.ToString(pageNum + 1);
+                Pagination(pageNum + 1);
+            }
+            else
+            {
+                Pagination(1);
+                pageNumber.Text = "1";
             }
         }
     }
